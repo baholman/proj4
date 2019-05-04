@@ -1,5 +1,7 @@
 #!/bin/bash
 
+mpi_init
+
 fname='~/cis520/LetsGitIt/proj4/3way-mpi/wiki_dump.txt'
 searchtext='DATA'
 #problem='10000 100000 500000 1000000'
