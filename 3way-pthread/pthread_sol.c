@@ -107,6 +107,7 @@ void *LCS_runner(void *id){
 
 	char** file_array;
 	file_array = malloc(sizeof(char*) * file_lines);
+	int i;
 	for(i =0; i < file_lines; i++){
 		if(ferror(fp) || feof(fp)){
 			break;			
