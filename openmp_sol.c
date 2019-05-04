@@ -4,8 +4,6 @@
 #include <sys/time.h>
 #include <math.h>
 #include "omp.h"
-
-
 #define MAXCHAR 2200
 int NUM_THREADS=12;
 char** file_array;
