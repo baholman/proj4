@@ -173,7 +173,6 @@ int main(int argc, char *argv[])
 		}
 		file_array[i] = malloc(sizeof(char) * MAXCHAR);
 		fgets(file_array[i], MAXCHAR, fp);
-		//printf("%s",file_array[i]);
 	}
 	//process array in lcs function	
 	int rc;
@@ -192,47 +191,21 @@ int main(int argc, char *argv[])
         MPI_Comm_rank(MPI_COMM_WORLD,&rank);
 
 	NUM_THREADS = numtasks;
-	/* printf("size = %d rank = %d\n", numtasks, rank);
-	fflush(stdout); */
 	
-	/* if ( rank == 0 ) {
-		init_arrays();
-	} */
-	//thread the given program and define an array buffer, with length
-	//MPI_Bcast(char_array, ARRAY_SIZE * STRING_SIZE, MPI_CHAR, 0, MPI_COMM_WORLD);
-		
 	LCS_runner(rank);
-
-	
-	//MPI_Reduce(local_char_count, char_counts, ALPHABET_SIZE, MPI_INT, MPI_SUM, 0, MPI_COMM_WORLD);
-
-/*
-	if ( rank == 0 ) {
-		print_results();
-	}
-	*/
-	//kill mpi program	
 
 	MPI_Finalize();
 	if (rank == 0){
 		gettimeofday(&t2, NULL);
 		elapsedTime = (t2.tv_sec - t1.tv_sec) * 1000.0; //sec to ms
 		elapsedTime += (t2.tv_usec - t1.tv_usec) / 1000.0; // us to ms
-		printf("DATA, %d, %s, %f\n", myVersion, getenv("SLURM_CPUS_ON_NODE"),  elapsedTime);
+		printf(elapsedTime);
 	}
-	//omp_set_num_threads(NUM_THREADS);
-	//#pragma omp parallel
-	//{
-	  	//LCS_runner(omp_get_thread_num());
-	//}
 	
 	//free the array
 	freeArray((int **)file_array,file_lines);
 	//close file
     fclose(fp);
 	
-	//print time
-
-	//pthread_exit(NULL);
   return 0;
 }
