@@ -11,11 +11,11 @@ rm $outname
 echo "--------OPEN MP--------" >> $outname
 gcc -fopenmp -o openmp.out openmp_sol.c -lm
 #./openmp.out $fname  $psize $nthreads | grep -c $searchtext >> $outname
-./openmp.out $fname  $psize $nthreads >> $outname
+./openmp.out $fname  $psize $nthreads | sort -g >> $outname
 
 echo "----------MPI----------" >> $outname
-mpicc -o mpiSol mpi_sol.c -lm
-./mpiSol $fname  $psize $nthreads >> $outname
+mpicc -o mpiSol mpi_sol.c -lm 
+./mpiSol $fname  $psize >> $outname
 #mpirun -np $nthreads mpi_sol.c $fname $psize| grep $searchtext >> $outname
 
 echo "COMPLETE: See $outname"

@@ -199,7 +199,7 @@ int main(int argc, char *argv[])
 		gettimeofday(&t2, NULL);
 		elapsedTime = (t2.tv_sec - t1.tv_sec) * 1000.0; //sec to ms
 		elapsedTime += (t2.tv_usec - t1.tv_usec) / 1000.0; // us to ms
-		printf(elapsedTime);
+		printf("Time elapsed: %f\n", elapsedTime);
 	}
 	
 	//free the array
