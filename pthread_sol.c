@@ -87,7 +87,8 @@ void printLCSubStr(char* X, char* Y, int m, int n,int l1,int l2)
 
 void *LCS_runner(void *id){
 	int s1,s2;
-	int startPos = ((int)id) * ceil((double)file_lines / NUM_THREADS);
+
+	int startPos = ((long)id) * ceil((double)file_lines / NUM_THREADS);
 	int endPos = startPos + ceil((double)file_lines / NUM_THREADS);	
 
 	char** file_array;
@@ -179,7 +180,7 @@ int main(int argc, char *argv[])
 	
 
 	for (i = 0; i < NUM_THREADS; i++ ) {
-	      rc = pthread_create(&threads[i], &attr, LCS_runner, (void *)i);
+	      rc = pthread_create(&threads[i], &attr, LCS_runner, (void *)((long)i));
 	      if (rc) {
 	        printf("ERROR; return code from pthread_create() is %d\n", rc);
 			exit(-1);
