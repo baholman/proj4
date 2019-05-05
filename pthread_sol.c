@@ -20,29 +20,14 @@ void freeArray(int **arr, int length){
 	free(arr);
 }
 
-//Print; Longest Common Substring
-//Source: https://www.geeksforgeeks.org/print-longest-common-substring/
-		//https://en.wikipedia.org/wiki/Longest_common_substring_problem
-//Changes: removes /n, no longer stores dynamic array on the stack
 void printLCSubStr(char* X, char* Y, int m, int n,int l1,int l2)
 {
-    // Create a table to store lengths of longest common
-    // suffixes of substrings.   Note that LCSuff[i][j]
-    // contains length of longest common suffix of X[0..i-1]
-    // and Y[0..j-1]. The first row and first column entries
-    // have no logical meaning, they are used only for
-    // simplicity of program
-//    int LCSuff[m + 1][n + 1]; //segfaults on large strings
-	//for a big array
+
 	int **LCSuff = malloc((m+1) * sizeof(int *));;
 	for(int k=0; k<(m+1);k++)
 		LCSuff[k] =(int*)malloc((n+1)*sizeof(int));
     // To store length of the longest common substring
     int len = 0;
- 
-    // To store the index of the cell which contains the 
-    // maximum value. This cell's index helps in building 
-    // up the longest common substring from right to left.
     int row, col;
  
    // Following steps build LCSuff[m+1][n+1] in bottom up fashion. 
@@ -83,10 +68,9 @@ void printLCSubStr(char* X, char* Y, int m, int n,int l1,int l2)
         row--;
         col--;
     }
-	printf("LCSuff");
+	//printf("LCSuff");
 	freeArray(LCSuff, m);  
 //remove newline char
-    //src: https://stackoverflow.com/questions/2693776/removing-trailing-newline-character-from-fgets-input
 	size_t length;
     if((length = strlen(resultStr)) >0){
 		if(resultStr[length-1] == '\n')
@@ -103,7 +87,7 @@ void printLCSubStr(char* X, char* Y, int m, int n,int l1,int l2)
 
 void *LCS_runner(void *id){
 	int s1,s2;
-	int startPos = ((int) id) * ceil((double)file_lines / NUM_THREADS);
+	int startPos = ((int)id) * ceil((double)file_lines / NUM_THREADS);
 	int endPos = startPos + ceil((double)file_lines / NUM_THREADS);	
 
 	char** file_array;
@@ -132,7 +116,7 @@ void *LCS_runner(void *id){
 	}
 		//free the array
 	printf("file_array");
-	freeArray((int **)file_array,file_lines);
+	freeArray((int **)file_array, file_lines);
 	pthread_exit(NULL);
 }
 
@@ -150,11 +134,6 @@ int main(int argc, char *argv[])
 	void *status;
 	
 	gettimeofday(&t1, NULL);
-								
-
-	//read file
-
-	//int s1,s2;
 	
 	int problem_size;
 	char* filename;
@@ -195,19 +174,6 @@ int main(int argc, char *argv[])
 	}
 	rewind(fp);
 
-	//file_array = malloc(sizeof(char*) * file_lines);	
-	//consider moving this inside a thread: critical(read) in array[chunk size] and run it through the function; more singles not getting compared {if odd chunk, make even}
-/* 	for(i =0; i < file_lines; i++){
-		if(ferror(fp) || feof(fp)){
-			break;			
-		}
-		file_array[i] = malloc(sizeof(char) * MAXCHAR);
-		fgets(file_array[i], MAXCHAR, fp);
-		//printf("%s",file_array[i]);
-	} */
-	//process array in lcs function
-	//declare thread
-	//set pthread attribs	
 	pthread_attr_init(&attr);
 	pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
 	
