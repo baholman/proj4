@@ -1,5 +1,9 @@
 OPEN MP
+<<<<<<< HEAD
 DATA, 1, (null), 154.216000
+=======
+DATA, 1, (null), 28.567000
+>>>>>>> 4014d57f378edd62b31a1075e7c766e05e408652
 0-1: html
 1-2: <h
 2-3: >
@@ -50,4 +54,57 @@ DATA, 1, (null), 154.216000
 47-48: 		
 48-49: jump-
 MPI
+<<<<<<< HEAD
+=======
+0-1: html
+1-2: <h
+2-3: >
+3-4: >
+4-5: le
+5-6: <script>
+6-7: ":false,"wg
+7-8: ","ext.visualEditor.desktopArticleTarget.
+8-9: ext.visualEditor.desktopArticleTarget.
+9-10: ="/w/load.php?lang=en&amp;modules=
+10-11: =""
+11-12: tyles
+12-13: <link rel="stylesheet" href="/w/load.php?lang=en&amp;modules=
+13-14: tor"
+14-15: <meta name="
+15-16: <meta name="referrer" content="origin
+16-17: <meta name="referrer" content="origin-when-cross
+17-18: " content="
+18-19: edia.org/wiki
+19-20: <link rel="a
+20-21: icon" href="/static/
+21-22: <link rel="s
+22-23: " type="application/
+23-24: <link rel="
+24-25: <link rel="
+25-26: <link rel="
+26-27: <link rel="dns-prefetch" href="//
+27-28: ="/
+28-29: ad
+29-30: >
+30-31:  class="
+31-32: -base" class="noprint"></div>
+32-33: <div id="
+33-34:  id="
+34-35:  id="
+35-36: mw-body-content">
+36-37:  class="mw-indicator
+37-38: </div>
+38-39: 
+39-40: 
+40-41: 	
+41-42: 	
+42-43: 	<div id="
+43-44: 		<div id="
+44-45: 		
+45-46: 		
+46-47: 		
+47-48: 		
+48-49: jump-
+Time elapsed: 799.775000
+>>>>>>> 4014d57f378edd62b31a1075e7c766e05e408652
 PTHREADS
