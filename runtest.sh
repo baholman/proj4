@@ -8,19 +8,19 @@ searchtext='DATA'
 psize=50
 rm $outname
 
-echo "OPEN MP" >> $outname
+echo "\nOPEN MP" >> $outname
 gcc -fopenmp -o openmp openmp_sol.c -lm
 #./openmp.out $fname  $psize $nthreads | grep -c $searchtext >> $outname
 ./openmp $fname  $psize $nthreads | sort -g >> $outname
 
-echo "MPI" >> $outname
+echo "\nMPI" >> $outname
 mpicc -o mpiSol mpi_sol.c -lm 
 ./mpiSol $fname  $psize >> $outname
 #mpirun -np $nthreads mpi_sol.c $fname $psize| grep $searchtext >> $outname
 
-echo "PTHREADS" >> $outname
-gcc -pthread -o fuckmaxmcdaniel pthread_sol.c -lm 
-./fuckmaxmcdaniel $fname  $psize $nthreads >> $outname
+echo "\nPTHREADS" >> $outname
+gcc -pthread -o pthreadrun pthread_sol.c -lm 
+./pthreadrun $fname  $psize $nthreads >> $outname
 #mpirun -np $nthreads mpi_sol.c $fname $psize| grep $searchtext >> $outname
 
-echo "COMPLETE: See $outname"
+echo "Output: $outname"

@@ -1,5 +1,5 @@
 OPEN MP
-DATA, 1, (null), 32.130000
+DATA, 1, (null), 28.567000
 0-1: html
 1-2: <h
 2-3: >
@@ -99,5 +99,5 @@ MPI
 46-47: 		
 47-48: 		
 48-49: jump-
-Time elapsed: 800.071000
+Time elapsed: 799.775000
 PTHREADS
