@@ -1,7 +1,3 @@
 OPEN MP
-Could not open file: /home/cullen/cis520/LetsGitIt/proj4/wiki_dump.txt
-Usage: ./program <file> | <problem size> <thread count>
 MPI
 PTHREADS
-Could not open file: /home/cullen/cis520/LetsGitIt/proj4/wiki_dump.txt
-Usage: ./program <file> | <problem size>
