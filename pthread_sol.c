@@ -189,7 +189,7 @@ int main(int argc, char *argv[])
 
 	elapsedTime = (t2.tv_sec - t1.tv_sec) * 1000.0; //sec to ms
 	elapsedTime += (t2.tv_usec - t1.tv_usec) / 1000.0; // us to ms
-	printf("DATA, %d, %s, %f\n", myVersion, getenv("SLURM_CPUS_ON_NODE"),  elapsedTime);
+	printf("Version: %d, Slurm_CPUs_on_node: %s, Time elapsed(ms): %f\n", myVersion, getenv("SLURM_CPUS_ON_NODE"),  elapsedTime);
 
   return 0;
 }
