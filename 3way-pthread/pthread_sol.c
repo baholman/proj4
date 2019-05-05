@@ -5,12 +5,11 @@
 #include <math.h>
 #include <pthread.h>
 
-//#define NUM_THREADS 12
+#define NUM_THREADS 12
 
 #define MAXCHAR 2200
-FILE *fp;
-int NUM_THREADS=12;
-//char** file_array;
+
+char** file_array;
 int file_lines;
 
 void freeArray(int **arr, int length){
@@ -19,10 +18,8 @@ void freeArray(int **arr, int length){
 	}
 	free(arr);
 }
-
-//Print; Longest Common Substring
+//Print; Least Common Substring
 //Source: https://www.geeksforgeeks.org/print-longest-common-substring/
-		//https://en.wikipedia.org/wiki/Longest_common_substring_problem
 //Changes: removes /n, no longer stores dynamic array on the stack
 void printLCSubStr(char* X, char* Y, int m, int n,int l1,int l2)
 {
@@ -84,7 +81,7 @@ void printLCSubStr(char* X, char* Y, int m, int n,int l1,int l2)
         col--;
     }
 	freeArray(LCSuff, m);  
-//remove newline char
+    //remove newline char
     //src: https://stackoverflow.com/questions/2693776/removing-trailing-newline-character-from-fgets-input
 	size_t length;
     if((length = strlen(resultStr)) >0){
@@ -98,40 +95,22 @@ void printLCSubStr(char* X, char* Y, int m, int n,int l1,int l2)
    
 }
 
-
-
-void *LCS_runner(void *id){
+void LCS_runner(int id){
 	int s1,s2;
 	int startPos = ((int) id) * ceil((double)file_lines / NUM_THREADS);
 	int endPos = startPos + ceil((double)file_lines / NUM_THREADS);	
-
-	char** file_array;
-	file_array = malloc(sizeof(char*) * file_lines);
-	int i;
-	for(i =0; i < file_lines; i++){
-		if(ferror(fp) || feof(fp)){
-			break;			
-		}
-		file_array[i] = malloc(sizeof(char) * MAXCHAR);
-		fgets(file_array[i], MAXCHAR, fp);
-		//printf("%s",file_array[i]);
-	}
-	
+//	if (endPos < file_lines)
+//		endPos = file_lines-1;
 	int line1 = startPos;
 	int line2 = line1 + 1;
 	for(int i =startPos; (i < endPos) &&(i+1 < file_lines); i++){
 		s1 = strlen(file_array[i]);
 		s2 = strlen(file_array[i+1]);
 			
-		//thread create
 		printLCSubStr(file_array[i], file_array[i+1], s1, s2, line1, line2);
-	//printf("I am thread: %d\n",(int)id);	
 		line1 = line2; //update lines
 		line2++;
 	}
-		//free the array
-	freeArray((int **)file_array,file_lines);
-	pthread_exit(NULL);
 }
 
 int main(int argc, char *argv[])
@@ -141,44 +120,36 @@ int main(int argc, char *argv[])
 	double elapsedTime;
 	int myVersion = 1;
 	
-	//threads
-	int i, rc;
-	pthread_t threads[NUM_THREADS];
-	pthread_attr_t attr;
-	void *status;
-	
+	int i;
 	gettimeofday(&t1, NULL);
 								
-
 	//read file
-
+	FILE *fp;
 	//int s1,s2;
-	
+
 	int problem_size;
 	char* filename;
 	if((argc == 2)){
 		filename = argv[1]; //get name from argument
 	}
-	else if(argc == 4){
+	else if(argc == 3){
 		filename = argv[1];
 		problem_size = strtol(argv[2], NULL, 10);
-		NUM_THREADS = strtol(argv[3], NULL, 10);
 	}
 	else{
-		printf("Usage: ./program <file> | <problem size> <thread count>\n");
+		printf("Usage: ./program <file> <problem size>\n");
         return 1;
 	}
 	
     fp = fopen(filename, "r");
     if (fp == NULL){
         printf("Could not open file: %s\n",filename);
-		printf("Usage: ./program <file> | <problem size> <thread count>\n");
+		printf("Usage: ./program <file> | <problem size>\n");
         return 1;
     }
     
 	//read file into array
 	int ch = 0;
-	
 	while(!feof(fp))
 	{
 	  ch = fgetc(fp);
@@ -187,57 +158,38 @@ int main(int argc, char *argv[])
 		file_lines++;
 	  }
 	}
-	
 	if((argc > 2) && (problem_size < file_lines)){
 		file_lines = problem_size;
 	}
 	rewind(fp);
 
-	//file_array = malloc(sizeof(char*) * file_lines);	
-	//consider moving this inside a thread: critical(read) in array[chunk size] and run it through the function; more singles not getting compared {if odd chunk, make even}
-/* 	for(i =0; i < file_lines; i++){
+	file_array = malloc(sizeof(char*) * file_lines);	
+	
+	for(i =0; i < file_lines; i++){
 		if(ferror(fp) || feof(fp)){
 			break;			
 		}
 		file_array[i] = malloc(sizeof(char) * MAXCHAR);
 		fgets(file_array[i], MAXCHAR, fp);
 		//printf("%s",file_array[i]);
-	} */
+	}
 	//process array in lcs function
-	//declare thread
-	//set pthread attribs	
-	pthread_attr_init(&attr);
-	pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
-	
 
 	for (i = 0; i < NUM_THREADS; i++ ) {
-	      rc = pthread_create(&threads[i], &attr, LCS_runner, (void *)i);
-	      if (rc) {
-	        printf("ERROR; return code from pthread_create() is %d\n", rc);
-			exit(-1);
-		  }
+		LCS_runner(i);
 	}
 	
-	//thread join
-	pthread_attr_destroy(&attr);
-	for(i=0; i<NUM_THREADS; i++) {
-	     rc = pthread_join(threads[i], &status);
-	     if (rc) {
-		   printf("ERROR; return code from pthread_join() is %d\n", rc);
-		   exit(-1);
-	     }
-	}
-
+	//free the array
+	freeArray((int **)file_array,file_lines);
 	//close file
-	fclose(fp);
+    fclose(fp);
 	
 	//print time
 	gettimeofday(&t2, NULL);
 
 	elapsedTime = (t2.tv_sec - t1.tv_sec) * 1000.0; //sec to ms
 	elapsedTime += (t2.tv_usec - t1.tv_usec) / 1000.0; // us to ms
-	printf("DATA, %d, %s, %f\n", myVersion, getenv("SLURM_CPUS_ON_NODE"),  elapsedTime);
-	pthread_exit(NULL);
-	free(threads);
+	printf("Version: %d, Slurm_CPUs_on_node: %s, Time elapsed(ms): %f\n", myVersion, getenv("SLURM_CPUS_ON_NODE"),  elapsedTime);
+
   return 0;
 }
