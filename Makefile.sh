@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #files: wiki_sample.txt, test_big.txt, test_shortline.txt
-fname='/homes/dan/625/wiki_dump.txt'
+#fname='/homes/dan/625/wiki_dump.txt'
 #outname='log.txt'
 #nthreads=1000
 #searchtext='DATA'
